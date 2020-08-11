@@ -1,0 +1,28 @@
+{
+  "name": "ukuli-tietomeri-simulator",
+  "version": "1.0.0",
+  "description": "Simulates data Arduino and Raspberry PI send over MQTT.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ukuli-Data/Ukuli-Tietomeri-Simulator.git"
+  },
+  "keywords": [
+    "Raspberry",
+    "PI",
+    "Arduino",
+    "MQTT"
+  ],
+  "author": "Tomi Toivio",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Ukuli-Data/Ukuli-Tietomeri-Simulator/issues"
+  },
+  "homepage": "https://github.com/Ukuli-Data/Ukuli-Tietomeri-Simulator#readme",
+  "dependencies": {
+    "paho-mqtt": "^1.1.0"
+  }
+}
