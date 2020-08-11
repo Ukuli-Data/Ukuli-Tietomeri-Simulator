@@ -1,6 +1,6 @@
 {
   "hostname": "localhost",
-  "port": 5984,
+  "port": 1883,
   "clientId": "TerenceMcKenna",
   "userName": "sienimies",
   "password": "taikasieni",
