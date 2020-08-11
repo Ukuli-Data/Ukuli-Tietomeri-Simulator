@@ -1,4 +1,5 @@
 const config = require('config');
+const Paho = require('paho-mqtt');
 const clientId = config.get('clientId');
 const hostname = config.get('hostname');
 const port = config.get('port');
@@ -18,7 +19,7 @@ function onConnect() {
     console.log("onConnect");
     client.subscribe("ukuli/" + client_id + "/radioactivity/");
     while(true) {
-        radioactivity = Math.random() * 1000);
+        radioactivity = (Math.random() * 1000);
         message = new Paho.MQTT.Message(radioactivity);
         message.destinationName = "ukuli/" + client_id + "/radioactivity/";
         client.send(message);
@@ -34,5 +35,4 @@ function onConnectionLost(responseObject) {
  
 function onMessageArrived(message) {
         console.log("onMessageArrived:"+message.payloadString);
-    }
 }
