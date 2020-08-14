@@ -7,7 +7,7 @@ const userName = config.get('mqtt.userName');
 const password = config.get('mqtt.password');
 
 const Paho = require('paho-mqtt');
-client = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
+const client = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
  
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
