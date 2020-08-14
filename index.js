@@ -1,3 +1,4 @@
+global.WebSocket = require('ws');
 var Config = require('config-js');
 var config = new Config('./config/config.js');
 const clientId = config.get('mqtt.clientId');
