@@ -1,4 +1,5 @@
-const config = require('config');
+var Config = require('config-js');
+var config = new Config('./config/config.json);
 const Paho = require('paho-mqtt');
 const clientId = config.get('clientId');
 const hostname = config.get('hostname');

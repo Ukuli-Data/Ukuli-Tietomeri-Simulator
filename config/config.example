@@ -1,0 +1,7 @@
+module.exports = {
+    clientId: 'ukuliSimulator',              
+    hostname: 'localhost'
+    port: 1883,
+    userName: 'ukuli'
+    password: 'ukuli'
+};
