@@ -7,12 +7,6 @@ const port = config.get('mqtt.port');
 const userName = config.get('mqtt.userName');
 const password = config.get('mqtt.password');
 
-// const Paho = require('paho-mqtt');
-// const client = new Paho.Client(hostname, Number(port), clientId);
- 
-// client.onConnectionLost = onConnectionLost;
-// client.onMessageArrived = onMessageArrived;
-
 const mqtt = require('mqtt');
 const client  = mqtt.connect('mqtt://' + hostname + ":" + Number(port));
  
@@ -29,33 +23,16 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
   console.log(message.toString());
 });
-
- 
-// client.connect({onSuccess:onConnect, userName:userName, password:password});
  
 var radioactivity = 3.6;
 var spamLoop = 0;
 
 function messageLoop() {
-    if (spamLoop < 100) {
-        setTimeout(spamMessage, 5000);
-        spamLoop++;
-    } else {
-        client.publish('ukuli/' + client_id + "/rbmk/", 'Reactor offline');
-        client.end();
-    }
+    setInterval(function(){ 
+        spamMessage();
+    }, 1000);
 }
  
-// function onConnectionLost(responseObject) {
-//    if (responseObject.errorCode !== 0) {
-//        console.log("onConnectionLost:"+responseObject.errorMessage);
-//    }
-// }
- 
-//function onMessageArrived(message) {
-//        console.log("onMessageArrived:"+message.payloadString);
-//}
-
 function spamMessage() {
     var randomNumber = Math.round((Math.random() * 10));
     switch(randomNumber) {
