@@ -16,14 +16,16 @@ client.onMessageArrived = onMessageArrived;
 client.connect({onSuccess:onConnect, userName:userName, password:password});
  
 var radioactivity = 3.6;
+var spamloop = 0;
 
 function onConnect() {
     console.log("onConnect");
     client.subscribe("ukuli/" + client_id + "/radioactivity/");
     client.subscribe("ukuli/" + client_id + "/reactorstatus/");
     client.subscribe("ukuli/" + client_id + "/reactoroperator/");
-    while(true) {
+    while(spamLoop < 100) {
         setTimeout(spamMessage(), 5000);
+        spamLoop++;
     }
 }
  
