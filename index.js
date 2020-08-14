@@ -1,12 +1,12 @@
 var Config = require('config-js');
-var config = new Config('./config/config.json);
-const Paho = require('paho-mqtt');
-const clientId = config.get('clientId');
-const hostname = config.get('hostname');
-const port = config.get('port');
-const userName = config.get('userName');
-const password = config.get('password');
+var config = new Config('./config/config.js');
+const clientId = config.get('mqtt.clientId');
+const hostname = config.get('mqtt.hostname');
+const port = config.get('mqtt.port');
+const userName = config.get('mqtt.userName');
+const password = config.get('mqtt.password');
 
+const Paho = require('paho-mqtt');
 client = new Paho.MQTT.Client(location.hostname, Number(location.port), clientId);
  
 client.onConnectionLost = onConnectionLost;
