@@ -1,43 +1,60 @@
 global.WebSocket = require('ws');
 var Config = require('config-js');
 var config = new Config('./config/config.js');
-const clientId = config.get('mqtt.clientId');
+const client_id = config.get('mqtt.clientId');
 const hostname = config.get('mqtt.hostname');
 const port = config.get('mqtt.port');
 const userName = config.get('mqtt.userName');
 const password = config.get('mqtt.password');
 
-const Paho = require('paho-mqtt');
-const client = new Paho.Client(hostname, Number(port), clientId);
+// const Paho = require('paho-mqtt');
+// const client = new Paho.Client(hostname, Number(port), clientId);
  
-client.onConnectionLost = onConnectionLost;
-client.onMessageArrived = onMessageArrived;
- 
-client.connect({onSuccess:onConnect, userName:userName, password:password});
- 
-var radioactivity = 3.6;
-var spamloop = 0;
+// client.onConnectionLost = onConnectionLost;
+// client.onMessageArrived = onMessageArrived;
 
-function onConnect() {
+const mqtt = require('mqtt');
+const client  = mqtt.connect('mqtt://' + hostname + ":" + Number(port));
+ 
+client.on('connect', function () {
     console.log("onConnect");
     client.subscribe("ukuli/" + client_id + "/radioactivity/");
     client.subscribe("ukuli/" + client_id + "/reactorstatus/");
     client.subscribe("ukuli/" + client_id + "/reactoroperator/");
-    while(spamLoop < 100) {
-        setTimeout(spamMessage(), 5000);
+    client.subscribe("ukuli/" + client_id + "/rbmk/");
+    client.publish('ukuli/' + client_id + "/rbmk/", 'Reactor operational');
+    messageLoop();
+});
+ 
+client.on('message', function (topic, message) {
+  console.log(message.toString());
+});
+
+ 
+// client.connect({onSuccess:onConnect, userName:userName, password:password});
+ 
+var radioactivity = 3.6;
+var spamLoop = 0;
+
+function messageLoop() {
+    if (spamLoop < 100) {
+        setTimeout(spamMessage, 5000);
         spamLoop++;
+    } else {
+        client.publish('ukuli/' + client_id + "/rbmk/", 'Reactor offline');
+        client.end();
     }
 }
  
-function onConnectionLost(responseObject) {
-    if (responseObject.errorCode !== 0) {
-        console.log("onConnectionLost:"+responseObject.errorMessage);
-        }
-}
+// function onConnectionLost(responseObject) {
+//    if (responseObject.errorCode !== 0) {
+//        console.log("onConnectionLost:"+responseObject.errorMessage);
+//    }
+// }
  
-function onMessageArrived(message) {
-        console.log("onMessageArrived:"+message.payloadString);
-}
+//function onMessageArrived(message) {
+//        console.log("onMessageArrived:"+message.payloadString);
+//}
 
 function spamMessage() {
     var randomNumber = Math.round((Math.random() * 10));
@@ -69,15 +86,18 @@ function spamMessage() {
             default:
                 reactoroperator = "Dyatlov";
         }
-        message = new Paho.MQTT.Message(reactoroperator);
-        message.destinationName = "ukuli/" + client_id + "/reactoroperator/";
-        client.send(message);
+        client.publish('ukuli/' + client_id + "/reactoroperator/", reactoroperator);
+        if(reactoroperator == "Dyatlov") {
+            client.publish('ukuli/' + client_id + "/rbmk/", 'There is no graphite!');
+            client.publish('ukuli/' + client_id + "/radioactivity/", "3.6");
+        }
     break;
     // Radioactivity level
     default:
         radioactivity = (Math.random() * 1000);
-        message = new Paho.MQTT.Message(radioactivity);
-        message.destinationName = "ukuli/" + client_id + "/radioactivity/";
-        client.send(message);
+        if(radioactivity % 2 == 1) {
+            radioactivity == 3.6;
+        }
+        client.publish("ukuli/" + client_id + "/radioactivity/", radioactivity.toString());
     }
 }
