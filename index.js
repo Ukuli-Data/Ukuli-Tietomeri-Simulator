@@ -1,6 +1,6 @@
 global.WebSocket = require('ws');
 var Config = require('config-js');
-var config = new Config('./config/config.js');
+var config = new Config('./config.js');
 const client_id = config.get('mqtt.clientId');
 const hostname = config.get('mqtt.hostname');
 const port = config.get('mqtt.port');
