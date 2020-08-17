@@ -12,11 +12,11 @@ const client  = mqtt.connect('mqtt://' + hostname + ":" + Number(port));
  
 client.on('connect', function () {
     console.log("onConnect");
-    client.subscribe("ukuli/" + client_id + "/radioactivity/");
-    client.subscribe("ukuli/" + client_id + "/reactorstatus/");
-    client.subscribe("ukuli/" + client_id + "/reactoroperator/");
-    client.subscribe("ukuli/" + client_id + "/rbmk/");
-    client.publish('ukuli/' + client_id + "/rbmk/", 'Reactor operational');
+    client.subscribe("tietomeri/" + client_id + "/radioactivity/");
+    client.subscribe("tietomeri/" + client_id + "/reactorstatus/");
+    client.subscribe("tietomeri/" + client_id + "/reactoroperator/");
+    client.subscribe("tietomeri/" + client_id + "/rbmk/");
+    client.publish('tietomeri/' + client_id + "/rbmk/", 'Reactor operational');
     messageLoop();
 });
  
@@ -63,10 +63,10 @@ function spamMessage() {
             default:
                 reactoroperator = "Dyatlov";
         }
-        client.publish('ukuli/' + client_id + "/reactoroperator/", reactoroperator);
+        client.publish('tietomeri/' + client_id + "/reactoroperator/", reactoroperator);
         if(reactoroperator == "Dyatlov") {
-            client.publish('ukuli/' + client_id + "/rbmk/", 'There is no graphite!');
-            client.publish('ukuli/' + client_id + "/radioactivity/", "3.6");
+            client.publish('tietomeri/' + client_id + "/rbmk/", 'There is no graphite!');
+            client.publish('tietomeri/' + client_id + "/radioactivity/", "3.6");
         }
     break;
     // Radioactivity level
@@ -75,6 +75,6 @@ function spamMessage() {
         if(radioactivity % 2 == 1) {
             radioactivity == 3.6;
         }
-        client.publish("ukuli/" + client_id + "/radioactivity/", radioactivity.toString());
+        client.publish("tietomeri/" + client_id + "/radioactivity/", radioactivity.toString());
     }
 }
