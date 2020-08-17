@@ -75,6 +75,6 @@ function spamMessage() {
         if(radioactivity % 2 == 1) {
             radioactivity == 3.6;
         }
-        client.publish("tietomeri/" + client_id + "/radioactivity/", radioactivity.toString());
+        client.publish("tietomeri/" + client_id + "/radioactivity/", radioactivity);
     }
 }
