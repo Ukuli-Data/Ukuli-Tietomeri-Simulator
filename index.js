@@ -35,6 +35,11 @@ function messageLoop() {
 }
  
 function spamMessage() {
+    radioactivity = (Math.random() * 1000);
+    console.log(radioactivity);
+    if(radioactivity % 2 == 0) {
+       radioactivity = 3.6;
+    }
     var randomNumber = Math.round((Math.random() * 10));
     switch(randomNumber) {
     // Reactor status
@@ -63,8 +68,9 @@ function spamMessage() {
             break;
             default:
                 reactoroperator = "Dyatlov";
-        }
-        client.publish('tietomeri/' + client_id + "/reactoroperator/", reactoroperator);
+	        
+	}        
+	client.publish('tietomeri/' + client_id + "/reactoroperator/", reactoroperator);
         if(reactoroperator == "Dyatlov") {
             client.publish('tietomeri/' + client_id + "/rbmk/", 'There is no graphite!');
             client.publish('tietomeri/' + client_id + "/radioactivity/", 3.6);
@@ -72,10 +78,9 @@ function spamMessage() {
     break;
     // Radioactivity level
     default:
-        radioactivity = (Math.random() * 1000);
-        if(radioactivity % 2 == 0) {
-            radioactivity = 3.6;
-        }
-        client.publish("tietomeri/" + client_id + "/radioactivity/", String(radioactivity));
+	if(typeof radioactivity == "number") {
+		radioactivity = radioactivity.toString();
+	}
+        client.publish("tietomeri/" + client_id + "/radioactivity/", radioactivity);
     }
 }
