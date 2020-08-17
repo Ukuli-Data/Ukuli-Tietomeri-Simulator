@@ -21,7 +21,8 @@ client.on('connect', function () {
 });
  
 client.on('message', function (topic, message) {
-  console.log(message.toString());
+  console.log(topic);
+  console.log(message);
 });
  
 var radioactivity = 3.6;
@@ -66,15 +67,15 @@ function spamMessage() {
         client.publish('tietomeri/' + client_id + "/reactoroperator/", reactoroperator);
         if(reactoroperator == "Dyatlov") {
             client.publish('tietomeri/' + client_id + "/rbmk/", 'There is no graphite!');
-            client.publish('tietomeri/' + client_id + "/radioactivity/", "3.6");
+            client.publish('tietomeri/' + client_id + "/radioactivity/", 3.6);
         }
     break;
     // Radioactivity level
     default:
         radioactivity = (Math.random() * 1000);
-        if(radioactivity % 2 == 1) {
-            radioactivity == 3.6;
+        if(radioactivity % 2 == 0) {
+            radioactivity = 3.6;
         }
-        client.publish("tietomeri/" + client_id + "/radioactivity/", radioactivity);
+        client.publish("tietomeri/" + client_id + "/radioactivity/", String(radioactivity));
     }
 }
